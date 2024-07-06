@@ -1,0 +1,86 @@
+[gd_scene load_steps=8 format=3 uid="uid://bxxh7p1epf6uk"]
+
+[ext_resource type="Script" path="res://scripts/ScoreBoard.gd" id="1_6e737"]
+[ext_resource type="PackedScene" uid="uid://bqf4aq5w1il45" path="res://scenes/packages/ball.tscn" id="1_7yvff"]
+[ext_resource type="PackedScene" uid="uid://ct10c1oldumlw" path="res://scenes/packages/player.tscn" id="1_cm47g"]
+[ext_resource type="Script" path="res://scripts/GameStartTimer.gd" id="1_uid3o"]
+[ext_resource type="PackedScene" uid="uid://kijfk4tefp4j" path="res://scenes/packages/killzone.tscn" id="5_8layh"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_xyo0s"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_t53wt"]
+
+[node name="Level1" type="Node2D"]
+
+[node name="Background" type="Polygon2D" parent="."]
+texture_repeat = 2
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(144, 81, -144, 81, -144, -81, 144, -81, 144, 8)
+uv = PackedVector2Array(20, 29, 4, 29, 4, 13, 20, 13)
+polygons = [PackedInt32Array(0, 1, 2, 3)]
+
+[node name="GameStartTimer" type="Node2D" parent="."]
+script = ExtResource("1_uid3o")
+
+[node name="Timer" type="Timer" parent="GameStartTimer"]
+
+[node name="TimerLabel" type="Label" parent="GameStartTimer"]
+visible = false
+offset_left = -5.0
+offset_top = -12.0
+offset_right = 35.0
+offset_bottom = 11.0
+text = "0"
+
+[node name="ScoreBoard" type="Node2D" parent="."]
+script = ExtResource("1_6e737")
+
+[node name="Player1Score" type="Label" parent="ScoreBoard"]
+offset_left = -20.0
+offset_top = -50.0
+offset_right = 20.0
+offset_bottom = -27.0
+text = "0"
+
+[node name="Player2Score" type="Label" parent="ScoreBoard"]
+offset_left = 10.0
+offset_top = -50.0
+offset_right = 50.0
+offset_bottom = -27.0
+text = "0"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(4, 4)
+
+[node name="Ball" parent="." instance=ExtResource("1_7yvff")]
+
+[node name="player1" parent="." instance=ExtResource("1_cm47g")]
+position = Vector2(-139, 0)
+metadata/player_name = "player1"
+
+[node name="player2" parent="." instance=ExtResource("1_cm47g")]
+position = Vector2(139, 0)
+metadata/player_name = "player2"
+
+[node name="WordBoundaries" type="StaticBody2D" parent="."]
+
+[node name="topCollider" type="CollisionShape2D" parent="WordBoundaries"]
+position = Vector2(0, -82)
+shape = SubResource("WorldBoundaryShape2D_xyo0s")
+
+[node name="botCollider" type="CollisionShape2D" parent="WordBoundaries"]
+position = Vector2(0, 82)
+shape = SubResource("WorldBoundaryShape2D_t53wt")
+
+[node name="RightKillzone" parent="WordBoundaries" instance=ExtResource("5_8layh")]
+position = Vector2(150, 0)
+rotation = -3.14159
+
+[node name="LeftKillzone" parent="WordBoundaries" instance=ExtResource("5_8layh")]
+position = Vector2(-150, 1)
+
+[connection signal="game_reset" from="Ball" to="GameStartTimer" method="_on_ball_game_reset"]
+[connection signal="player_scored" from="Ball" to="ScoreBoard" method="_on_ball_player_scored"]
+[connection signal="body_entered" from="WordBoundaries/RightKillzone" to="Ball" method="_on_right_killzone_body_entered"]
+[connection signal="body_entered" from="WordBoundaries/LeftKillzone" to="Ball" method="_on_left_killzone_body_entered"]
