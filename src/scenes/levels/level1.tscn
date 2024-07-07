@@ -74,11 +74,11 @@ position = Vector2(0, 82)
 shape = SubResource("WorldBoundaryShape2D_t53wt")
 
 [node name="RightKillzone" parent="WordBoundaries" instance=ExtResource("5_8layh")]
-position = Vector2(150, 0)
+position = Vector2(152, 0)
 rotation = -3.14159
 
 [node name="LeftKillzone" parent="WordBoundaries" instance=ExtResource("5_8layh")]
-position = Vector2(-150, 1)
+position = Vector2(-152, 1)
 
 [connection signal="game_reset" from="Ball" to="GameStartTimer" method="_on_ball_game_reset"]
 [connection signal="player_scored" from="Ball" to="ScoreBoard" method="_on_ball_player_scored"]
