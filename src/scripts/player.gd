@@ -25,6 +25,7 @@ func _ready():
 	cpu_move_timer.wait_time = .300
 	cpu_move_timer.connect("timeout", _on_timer_timeout, 1)
 	cpu_move_timer.start()
+
 	player_name = get_meta("player_name")
 	
 	audio_player = AudioStreamPlayer.new()

@@ -7,7 +7,6 @@ signal game_reset()
 # ball config
 const speed = 100
 var velocity = Vector2.ZERO
-var game_over = false
 
  #audio
 var player: AudioStreamPlayer
@@ -26,12 +25,6 @@ func _ready():
 	player_scored_sound = preload("res://assets/audio/player_scored.wav")
 
 func _physics_process(delta):
-	if game_over:
-		position = Vector2.ZERO
-		velocity = Vector2.ZERO
-		move_and_collide(velocity)
-		return
-
 	var new_velo = velocity * speed * delta
 	var collision = move_and_collide(new_velo)
 	rotate(PI*delta)
@@ -44,15 +37,6 @@ func _physics_process(delta):
 			play_paddle_bounce()
 		velocity = velocity.bounce(collision.get_normal())
 
-
-func start_ball():
-	game_over = false
-	visible = true
-	velocity.x = [-1,1][randi()%2]
-	velocity.y = [-0.8,0.8][randi()%2]
-
-func __reset():
-	visible = false
 
 func _on_left_killzone_body_entered(body):
 	if body.name != "Ball":
@@ -71,13 +55,25 @@ func _on_right_killzone_body_entered(body):
 # my
 #
 
+func start_ball():
+	show()
+	set_physics_process(true)
+	set_process(true)
+
+func __reset():
+	hide()
+	set_physics_process(false)
+	set_process(false)
+	velocity.x = [-1,1][randi()%2]
+	velocity.y = [-0.8,0.8][randi()%2]
+	position = Vector2.ZERO
+	move_and_collide(velocity)
+
 func killozne_entered(player_name: String):
 	play_player_scored_sound()
-	game_over = true
 	__reset()
 	player_scored.emit(player_name)
 	game_reset.emit()
-	__reset()
 
 func play_ball_bounce():
 	player.stream = ball_bounce
