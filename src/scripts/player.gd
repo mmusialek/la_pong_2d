@@ -39,7 +39,7 @@ func _physics_process(delta):
 		var towards_me = (position.x - prev_ball_pos.x) < (position.x - ball.position.x)
 		if pos_delta.x < 170 and towards_me and cpu_handicap <= cpu_experience_level:
 			var direction = 1 if ball.position.y>position.y else -1
-			move_and_collide(Vector2(0, direction * (velocity-20) * delta))
+			move_and_collide(Vector2(0, direction * velocity * delta))
 
 	elif player_name == "player2":
 		var direction = Input.get_axis("ui_up", "ui_down")
