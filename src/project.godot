@@ -13,7 +13,13 @@ config_version=5
 config/name="La Pong 2D"
 run/main_scene="res://scenes/levels/level1.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
-config/icon="res://icon.svg"
+boot_splash/show_image=false
+config/icon="res://assets/sprites/la_ponge_2d_icon.png"
+config/windows_native_icon="res://assets/sprites/la_ponge_2d_icon.ico"
+
+[display]
+
+window/size/resizable=false
 
 [rendering]
 
