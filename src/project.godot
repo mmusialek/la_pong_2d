@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="La Pong 2D"
+config/name="Pong Adventures"
 run/main_scene="res://scenes/levels/level1.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 boot_splash/show_image=false
