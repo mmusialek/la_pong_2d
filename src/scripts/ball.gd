@@ -7,6 +7,7 @@ signal game_reset()
 # ball config
 const speed = 100
 var velocity = Vector2.ZERO
+const SparkEffect = preload("res://scenes/packages/spark_effect.tscn")
 
  #audio
 var player: AudioStreamPlayer
@@ -29,6 +30,11 @@ func _physics_process(delta):
 	var collision = move_and_collide(new_velo)
 	rotate(PI*delta)
 	if collision:
+		var spark = SparkEffect.instantiate()
+		get_tree().current_scene.add_child(spark)
+		spark.global_position = collision.get_position()
+		spark.rotation = collision.get_normal().angle()
+
 		var collider = collision.get_collider()
 		if collider.name == "WordBoundaries":
 			play_ball_bounce()

@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://ccpqjewmp3ei2"]
+
+[ext_resource type="Script" uid="uid://napanw7m5eih" path="res://scripts/spark_effect.gd" id="1_4d7o6"]
+
+[sub_resource type="Gradient" id="Gradient_777"]
+colors = PackedColorArray(1, 0.85098, 0, 1, 1, 0.533333, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_888"]
+gradient = SubResource("Gradient_777")
+
+[sub_resource type="Curve" id="Curve_111"]
+_data = [Vector2(0, 1), -1.0, 0.0, 0, 0, Vector2(1, 0), -1.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_222"]
+curve = SubResource("Curve_111")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_333"]
+particle_flag_disable_z = true
+spread = 60.0
+initial_velocity_min = 200.0
+initial_velocity_max = 300.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.5
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_222")
+color_ramp = SubResource("GradientTexture1D_888")
+
+[node name="SparkEffect" type="GPUParticles2D" unique_id=1802690496]
+emitting = false
+amount = 7
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_333")
+script = ExtResource("1_4d7o6")
