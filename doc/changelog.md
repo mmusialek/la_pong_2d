@@ -1,3 +1,7 @@
+## 2026-02-26 - Game Menu and ESC Handling
+- Added a main menu scene with Start Game and Exit buttons.
+- Pressing Esc during play returns to the menu.
+
 ## 2026-02-26 - Dynamic Ball Acceleration
 - Ball speed now increases by a small percentage each time it collides with a paddle, creating a difficulty curve during rallies.
 

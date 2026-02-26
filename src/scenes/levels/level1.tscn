@@ -1,89 +1,90 @@
-[gd_scene load_steps=8 format=3 uid="uid://bxxh7p1epf6uk"]
+[gd_scene format=3 uid="uid://bxxh7p1epf6uk"]
 
-[ext_resource type="Script" path="res://scripts/ScoreBoard.gd" id="1_6e737"]
+[ext_resource type="Script" uid="uid://kp7qkugheomi" path="res://scripts/ScoreBoard.gd" id="1_6e737"]
 [ext_resource type="PackedScene" uid="uid://bqf4aq5w1il45" path="res://scenes/packages/ball.tscn" id="1_7yvff"]
 [ext_resource type="PackedScene" uid="uid://ct10c1oldumlw" path="res://scenes/packages/player.tscn" id="1_cm47g"]
-[ext_resource type="Script" path="res://scripts/GameStartTimer.gd" id="1_uid3o"]
+[ext_resource type="Script" uid="uid://d1ikon7ldk6ju" path="res://scripts/GameStartTimer.gd" id="1_uid3o"]
 [ext_resource type="PackedScene" uid="uid://kijfk4tefp4j" path="res://scenes/packages/killzone.tscn" id="5_8layh"]
-[ext_resource type="Script" path="res://scripts/camera_shake.gd" id="6_cshak"]
+[ext_resource type="Script" uid="uid://mdm0usjgcyj" path="res://scripts/camera_shake.gd" id="6_cshak"]
+[ext_resource type="Script" uid="uid://cvat2uhm8uiqx" path="res://scripts/level1.gd" id="7_level1"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_xyo0s"]
 normal = Vector2(0, 1)
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_t53wt"]
 
-[node name="Level1" type="Node2D"]
+[node name="Level1" type="Node2D" unique_id=321184760]
+script = ExtResource("7_level1")
 
-[node name="Background" type="Polygon2D" parent="."]
+[node name="Background" type="Polygon2D" parent="." unique_id=1842809964]
 texture_repeat = 2
 color = Color(0, 0, 0, 1)
 polygon = PackedVector2Array(144, 81, -144, 81, -144, -81, 144, -81, 144, 8)
 uv = PackedVector2Array(20, 29, 4, 29, 4, 13, 20, 13)
 polygons = [PackedInt32Array(0, 1, 2, 3)]
 
-[node name="GameStartTimer" type="Node2D" parent="."]
+[node name="GameStartTimer" type="Node2D" parent="." unique_id=1638073863]
 script = ExtResource("1_uid3o")
 
-[node name="Timer" type="Timer" parent="GameStartTimer"]
+[node name="Timer" type="Timer" parent="GameStartTimer" unique_id=1199257970]
 
-[node name="TimerLabel" type="Label" parent="GameStartTimer"]
-visible = false
+[node name="TimerLabel" type="Label" parent="GameStartTimer" unique_id=2112910966]
 offset_left = -5.0
 offset_top = -12.0
 offset_right = 35.0
 offset_bottom = 11.0
 text = "0"
 
-[node name="ScoreBoard" type="Node2D" parent="."]
+[node name="ScoreBoard" type="Node2D" parent="." unique_id=986734378]
 script = ExtResource("1_6e737")
 
-[node name="Player1Score" type="Label" parent="ScoreBoard"]
+[node name="Player1Score" type="Label" parent="ScoreBoard" unique_id=2128513460]
 offset_left = -20.0
 offset_top = -50.0
 offset_right = 20.0
 offset_bottom = -27.0
 text = "0"
 
-[node name="Player2Score" type="Label" parent="ScoreBoard"]
+[node name="Player2Score" type="Label" parent="ScoreBoard" unique_id=19810082]
 offset_left = 10.0
 offset_top = -50.0
 offset_right = 50.0
 offset_bottom = -27.0
 text = "0"
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=808875494]
 zoom = Vector2(4, 4)
 script = ExtResource("6_cshak")
 
-[node name="Ball" parent="." instance=ExtResource("1_7yvff")]
+[node name="Ball" parent="." unique_id=323451849 instance=ExtResource("1_7yvff")]
 
-[node name="player1" parent="." instance=ExtResource("1_cm47g")]
+[node name="player1" parent="." unique_id=1772642980 instance=ExtResource("1_cm47g")]
 position = Vector2(-139, 0)
 metadata/player_name = "player1"
 
-[node name="player2" parent="." instance=ExtResource("1_cm47g")]
+[node name="player2" parent="." unique_id=1066001917 instance=ExtResource("1_cm47g")]
 position = Vector2(139, 0)
 metadata/player_name = "player2"
 
-[node name="WordBoundaries" type="StaticBody2D" parent="."]
+[node name="WordBoundaries" type="StaticBody2D" parent="." unique_id=2095395322]
 
-[node name="topCollider" type="CollisionShape2D" parent="WordBoundaries"]
+[node name="topCollider" type="CollisionShape2D" parent="WordBoundaries" unique_id=1259318446]
 position = Vector2(0, -82)
 shape = SubResource("WorldBoundaryShape2D_xyo0s")
 
-[node name="botCollider" type="CollisionShape2D" parent="WordBoundaries"]
+[node name="botCollider" type="CollisionShape2D" parent="WordBoundaries" unique_id=1426034220]
 position = Vector2(0, 82)
 shape = SubResource("WorldBoundaryShape2D_t53wt")
 
-[node name="RightKillzone" parent="WordBoundaries" instance=ExtResource("5_8layh")]
+[node name="RightKillzone" parent="WordBoundaries" unique_id=1173065287 instance=ExtResource("5_8layh")]
 position = Vector2(152, 0)
 rotation = -3.14159
 
-[node name="LeftKillzone" parent="WordBoundaries" instance=ExtResource("5_8layh")]
+[node name="LeftKillzone" parent="WordBoundaries" unique_id=833455823 instance=ExtResource("5_8layh")]
 position = Vector2(-152, 1)
 
+[connection signal="bounced" from="Ball" to="Camera2D" method="apply_shake"]
 [connection signal="game_reset" from="Ball" to="GameStartTimer" method="_on_ball_game_reset"]
 [connection signal="player_scored" from="Ball" to="ScoreBoard" method="_on_ball_player_scored"]
-[connection signal="bounced" from="Ball" to="Camera2D" method="apply_shake"]
 [connection signal="body_entered" from="WordBoundaries/RightKillzone" to="Ball" method="_on_right_killzone_body_entered"]
 [connection signal="body_entered" from="WordBoundaries/LeftKillzone" to="Ball" method="_on_left_killzone_body_entered"]

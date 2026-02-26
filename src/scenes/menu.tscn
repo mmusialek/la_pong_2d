@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://h6w3jsrfldrg"]
+
+[node name="Menu" type="Control" unique_id=1435978312]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Menu#Center" type="CenterContainer" parent="." unique_id=195734821]
+layout_mode = 0
+
+[node name="Center#VBoxContainer" type="VBoxContainer" parent="." unique_id=943008959]
+layout_mode = 0
+alignment = 1
+
+[node name="VBoxContainer#StartButton" type="Button" parent="Center#VBoxContainer" unique_id=533454144]
+layout_mode = 2
+text = "Start Game"
+
+[node name="VBoxContainer#ExitButton" type="Button" parent="Center#VBoxContainer" unique_id=1134656824]
+layout_mode = 2
+text = "Exit"

@@ -1,7 +1,7 @@
 ﻿---
 name: implement-issue
 description: Implement an issue based on a provided analysis and plan
-model: Raptor mini (Preview) (copilot)
+model: Claude Haiku 4.5 (copilot)
 agent: agent
 ---
 

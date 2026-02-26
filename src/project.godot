@@ -15,7 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Pong Adventures"
-run/main_scene="res://scenes/levels/level1.tscn"
+run/main_scene="res://scenes/levels/main_menu.tscn"
 config/features=PackedStringArray("4.6", "Forward Plus")
 boot_splash/show_image=false
 config/icon="res://assets/sprites/la_ponge_2d_icon.png"

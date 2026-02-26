@@ -1,7 +1,7 @@
 ---
 name: analyze-issue
 description: Analyze an issue and create a structured implementation plan for AI consumption.
-model: Raptor mini (Preview) (copilot)
+model: Gemini 3.1 Pro (Preview) (copilot)
 agent: agent
 ---
 
