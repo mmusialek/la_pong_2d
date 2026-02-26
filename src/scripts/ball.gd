@@ -7,6 +7,7 @@ signal game_reset()
 # ball config
 const speed = 100
 var velocity = Vector2.ZERO
+const MAX_BOUNCE_ANGLE = PI / 4.0 # 45 degrees
 const SparkEffect = preload("res://scenes/packages/spark_effect.tscn")
 
  #audio
@@ -41,7 +42,23 @@ func _physics_process(delta):
 
 		if collider.name in ["player1", "player2"]:
 			play_paddle_bounce()
-		velocity = velocity.bounce(collision.get_normal())
+			
+			# Calculate relative intersection y
+			var relative_y = collision.get_position().y - collider.position.y
+			
+			# Normalize relative y (paddle height is 16, half is 8)
+			var normalized_y = clamp(relative_y / 8.0, -1.0, 1.0)
+			
+			# Calculate bounce angle
+			var bounce_angle = normalized_y * MAX_BOUNCE_ANGLE
+			
+			# Determine x direction based on which player was hit
+			var dir_x = 1 if collider.name == "player1" else -1
+			
+			# Set new velocity
+			velocity = Vector2(dir_x * cos(bounce_angle), sin(bounce_angle)).normalized()
+		else:
+			velocity = velocity.bounce(collision.get_normal())
 
 
 func _on_left_killzone_body_entered(body):
