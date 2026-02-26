@@ -3,6 +3,7 @@ extends RigidBody2D
 # signals
 signal player_scored(player_name: String)
 signal game_reset()
+signal bounced(intensity: float)
 
 # ball config
 const speed = 100
@@ -13,6 +14,10 @@ const WALL_ROTATION_FACTOR: float = 15.0
 var velocity = Vector2.ZERO
 const MAX_BOUNCE_ANGLE = PI / 4.0 # 45 degrees
 const SparkEffect = preload("res://scenes/packages/spark_effect.tscn")
+
+# trail
+@onready var trail: Line2D = $Trail
+const MAX_TRAIL_LENGTH: int = 15
 
  #audio
 var player: AudioStreamPlayer
@@ -30,11 +35,21 @@ func _ready():
 	paddle_bounce = preload("res://assets/audio/paddle_bounce.wav")
 	player_scored_sound = preload("res://assets/audio/player_scored.wav")
 
+	var curve = Curve.new()
+	curve.add_point(Vector2(0, 0))
+	curve.add_point(Vector2(1, 1))
+	trail.width_curve = curve
+
 func _physics_process(delta):
 	var new_velo = velocity * speed * delta
 	var collision = move_and_collide(new_velo)
 	rotate(rotation_speed * delta)
 	rotation_speed = lerp(rotation_speed, 0.0, delta * ROTATION_DAMPING)
+	
+	trail.add_point(global_position)
+	if trail.get_point_count() > MAX_TRAIL_LENGTH:
+		trail.remove_point(0)
+
 	if collision:
 		var spark = SparkEffect.instantiate()
 		get_tree().current_scene.add_child(spark)
@@ -44,11 +59,13 @@ func _physics_process(delta):
 		var collider = collision.get_collider()
 		if collider.name == "WordBoundaries":
 			play_ball_bounce()
+			bounced.emit(2.0)
 			# Change rotation direction and speed based on realistic physics
 			rotation_speed += velocity.x * collision.get_normal().y * WALL_ROTATION_FACTOR
 
 		if collider.name in ["player1", "player2"]:
 			play_paddle_bounce()
+			bounced.emit(4.0)
 			
 			# Calculate relative intersection y
 			var relative_y = collision.get_position().y - collider.position.y
@@ -98,6 +115,7 @@ func start_ball():
 
 func __reset():
 	hide()
+	trail.clear_points()
 	set_physics_process(false)
 	set_process(false)
 	rotation_speed = 0.0

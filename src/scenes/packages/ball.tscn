@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://bqf4aq5w1il45"]
+[gd_scene format=3 uid="uid://bqf4aq5w1il45"]
 
-[ext_resource type="Script" path="res://scripts/ball.gd" id="1_fsgly"]
+[ext_resource type="Script" uid="uid://ch67nl48o42k" path="res://scripts/ball.gd" id="1_fsgly"]
 [ext_resource type="Texture2D" uid="uid://lekinq2gyopp" path="res://assets/sprites/ball.png" id="2_pdc1s"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_e81na"]
@@ -10,13 +10,19 @@ bounce = 1.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_5xdl6"]
 radius = 3.0
 
-[node name="Ball" type="RigidBody2D"]
+[node name="Ball" type="RigidBody2D" unique_id=1068967597]
 physics_material_override = SubResource("PhysicsMaterial_e81na")
 gravity_scale = 0.0
 script = ExtResource("1_fsgly")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Trail" type="Line2D" parent="." unique_id=609459871]
+top_level = true
+points = PackedVector2Array(87, -14)
+width = 3.0
+default_color = Color(1, 1, 1, 0.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=379608328]
 texture = ExtResource("2_pdc1s")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1704778050]
 shape = SubResource("CircleShape2D_5xdl6")
