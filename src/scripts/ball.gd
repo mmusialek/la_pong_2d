@@ -6,6 +6,10 @@ signal game_reset()
 
 # ball config
 const speed = 100
+var rotation_speed: float = 0.0
+const MAX_ROTATION_SPEED: float = PI * 4.0
+const ROTATION_DAMPING: float = 0.5
+const WALL_ROTATION_FACTOR: float = 15.0
 var velocity = Vector2.ZERO
 const MAX_BOUNCE_ANGLE = PI / 4.0 # 45 degrees
 const SparkEffect = preload("res://scenes/packages/spark_effect.tscn")
@@ -29,7 +33,8 @@ func _ready():
 func _physics_process(delta):
 	var new_velo = velocity * speed * delta
 	var collision = move_and_collide(new_velo)
-	rotate(PI*delta)
+	rotate(rotation_speed * delta)
+	rotation_speed = lerp(rotation_speed, 0.0, delta * ROTATION_DAMPING)
 	if collision:
 		var spark = SparkEffect.instantiate()
 		get_tree().current_scene.add_child(spark)
@@ -39,6 +44,8 @@ func _physics_process(delta):
 		var collider = collision.get_collider()
 		if collider.name == "WordBoundaries":
 			play_ball_bounce()
+			# Change rotation direction and speed based on realistic physics
+			rotation_speed += velocity.x * collision.get_normal().y * WALL_ROTATION_FACTOR
 
 		if collider.name in ["player1", "player2"]:
 			play_paddle_bounce()
@@ -57,8 +64,14 @@ func _physics_process(delta):
 			
 			# Set new velocity
 			velocity = Vector2(dir_x * cos(bounce_angle), sin(bounce_angle)).normalized()
+			
+			# Set rotation speed based on where it hit the paddle
+			rotation_speed = normalized_y * MAX_ROTATION_SPEED
 		else:
 			velocity = velocity.bounce(collision.get_normal())
+			# Apply rotation effect to bounce trajectory
+			velocity.x += rotation_speed * 0.05 * collision.get_normal().y
+			velocity = velocity.normalized()
 
 
 func _on_left_killzone_body_entered(body):
@@ -87,6 +100,7 @@ func __reset():
 	hide()
 	set_physics_process(false)
 	set_process(false)
+	rotation_speed = 0.0
 	velocity.x = [-1,1][randi()%2]
 	velocity.y = [-0.8,0.8][randi()%2]
 	position = Vector2.ZERO
