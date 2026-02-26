@@ -6,7 +6,10 @@ signal game_reset()
 signal bounced(intensity: float)
 
 # ball config
-const speed = 100
+const BASE_SPEED: float = 100.0
+var current_speed: float = BASE_SPEED
+const MAX_SPEED: float = 300.0
+const SPEED_MULTIPLIER: float = 1.05
 var rotation_speed: float = 0.0
 const MAX_ROTATION_SPEED: float = PI * 4.0
 const ROTATION_DAMPING: float = 0.5
@@ -41,7 +44,7 @@ func _ready():
 	trail.width_curve = curve
 
 func _physics_process(delta):
-	var new_velo = velocity * speed * delta
+	var new_velo = velocity * current_speed * delta
 	var collision = move_and_collide(new_velo)
 	rotate(rotation_speed * delta)
 	rotation_speed = lerp(rotation_speed, 0.0, delta * ROTATION_DAMPING)
@@ -66,6 +69,9 @@ func _physics_process(delta):
 		if collider.name in ["player1", "player2"]:
 			play_paddle_bounce()
 			bounced.emit(4.0)
+			
+			# increase speed after paddle hit
+			current_speed = min(current_speed * SPEED_MULTIPLIER, MAX_SPEED)
 			
 			# Calculate relative intersection y
 			var relative_y = collision.get_position().y - collider.position.y
@@ -119,6 +125,7 @@ func __reset():
 	set_physics_process(false)
 	set_process(false)
 	rotation_speed = 0.0
+	current_speed = BASE_SPEED
 	velocity.x = [-1,1][randi()%2]
 	velocity.y = [-0.8,0.8][randi()%2]
 	position = Vector2.ZERO

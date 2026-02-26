@@ -1,7 +1,7 @@
 ﻿---
 name: implement-issue
 description: Implement an issue based on a provided analysis and plan
-model: Gemini 3 Flash (Preview) (copilot)
+model: Raptor mini (Preview) (copilot)
 agent: agent
 ---
 

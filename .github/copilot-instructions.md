@@ -11,6 +11,16 @@
 - Always respect best practices for GDScript and Godot Engine development, such as using signals for communication between nodes, using groups for organizing nodes, and following the scene tree structure effectively.
 - Always test the game after implementing new features or making changes to ensure that everything works as expected and that no new bugs have been introduced.
 
+# change log handing
+- changelog file is located `doc\ideas.md`
+- when implemented new feature, for every significant change, add a new entry to the changelog with the following format:
+```## [Date] - [Feature Title]
+- [Description of the change and its impact on the game]
+```
+- date should be in format YYYY-MM-DD
+- feature title should be a short, descriptive title of the change
+- add description ONLY for game changing features.
+
 ## Project structure
 - `assets/`: Contains all game assets such as sprites, sounds, and music.
 - `scenes/`: Contains all the Godot scene files (.tscn) for the game.
