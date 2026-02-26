@@ -18,3 +18,7 @@
 ## 2026-02-26 - Visual Trail & Camera Shake
 - Introduced a `Line2D` trail behind the ball to visualize speed and direction.
 - Implemented a `Camera2D` shake effect triggered on ball bounces for added feedback.
+
+## 2026-02-26 - Countdown Timer at Startup
+- Fixed issue where the game began immediately after starting; countdown now runs when the level loads or after a score.
+- Ball is reset and hidden at the beginning of a round until the countdown finishes.

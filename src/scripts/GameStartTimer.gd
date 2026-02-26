@@ -7,8 +7,15 @@ var timerTimeouts = 3
 
 func _ready():
 	timer.timeout.connect(_on_timer_timeout)
+	# when the level is first loaded we want the countdown to run
+	# the ball hasn't emitted game_reset yet, so trigger it manually
+	_on_ball_game_reset()
 
 func _on_ball_game_reset():
+	# make sure the ball is in its reset/hidden state before the countdown
+	if ball.has_method("__reset"):
+		ball.__reset()
+
 	$TimerLabel.text = str(timerTimeouts)
 	$TimerLabel.visible = true
 	timer.start()

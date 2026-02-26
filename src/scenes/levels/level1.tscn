@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://d1ikon7ldk6ju" path="res://scripts/GameStartTimer.gd" id="1_uid3o"]
 [ext_resource type="PackedScene" uid="uid://kijfk4tefp4j" path="res://scenes/packages/killzone.tscn" id="5_8layh"]
 [ext_resource type="Script" uid="uid://mdm0usjgcyj" path="res://scripts/camera_shake.gd" id="6_cshak"]
-[ext_resource type="Script" uid="uid://cvat2uhm8uiqx" path="res://scripts/level1.gd" id="7_level1"]
+[ext_resource type="Script" uid="uid://cvat2uhm8uiqx" path="res://scripts/Level1.gd" id="7_level1"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_xyo0s"]
 normal = Vector2(0, 1)

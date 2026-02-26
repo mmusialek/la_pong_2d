@@ -29,6 +29,7 @@ var paddle_bounce
 var player_scored_sound
 
 func _ready():
+	# initial random velocity direction, will be overwritten by __reset()
 	velocity.x = [-1,1][randi()%2]
 	velocity.y = [-0.8,0.8][randi()%2]
 	player = AudioStreamPlayer.new()
@@ -42,6 +43,9 @@ func _ready():
 	curve.add_point(Vector2(0, 0))
 	curve.add_point(Vector2(1, 1))
 	trail.width_curve = curve
+
+	# make sure the ball starts in the reset (hidden, stopped) state
+	__reset()
 
 func _physics_process(delta):
 	var new_velo = velocity * current_speed * delta
@@ -121,7 +125,9 @@ func start_ball():
 
 func __reset():
 	hide()
-	trail.clear_points()
+	# trail may not be initialized if this is called before _ready
+	if trail:
+		trail.clear_points()
 	set_physics_process(false)
 	set_process(false)
 	rotation_speed = 0.0
